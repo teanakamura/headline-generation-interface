@@ -1,0 +1,8 @@
+<mat-form-field>
+  <mat-label>サンプル記事</mat-label>
+  <mat-select [formControl]="selectedArticle">
+    <mat-option *ngFor="let article of articles" [value]="article.article">
+      {{article.headline}}
+    </mat-option>
+  </mat-select>
+</mat-form-field>

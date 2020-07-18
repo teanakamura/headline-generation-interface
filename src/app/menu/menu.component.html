@@ -1,0 +1,24 @@
+<div class="menu">
+	<a class="navbar-brand mr-50" href="https://www.nlp.c.titech.ac.jp/index.ja.html">
+	    <img src="../../assets/lab-banner.svg" alt="Okazaki Laboratory at Tokyo Institute of Technology" type="image/svg+xml" width="170px" height="32px">
+	</a>
+	<button class="navbar-toggler float-right" type="button"  data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav"  aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse"  id="navbarNav">
+    <ul class="navbar-nav">
+      <li class="nav-item" [ngClass]="menuTab == 'demo' ? 'active' : ''">
+        <a class="nav-link" href="#"  data-toggle="collapse" data-target=".navbar-collapse.show" (click)="menuTab = setMenu('demo')">デモ</a>
+      </li>
+      <li class="nav-item" [ngClass]="menuTab == 'instructions' ? 'active' : ''">
+        <a class="nav-link" href="#"  data-toggle="collapse" data-target=".navbar-collapse.show" (click)="menuTab = setMenu('instructions')" >デモの説明</a>
+      </li>
+      <li class="nav-item" [ngClass]="menuTab == 'about' ? 'active' : ''">
+        <a class="nav-link" href="#"  data-toggle="collapse" data-target=".navbar-collapse.show" (click)="menuTab = setMenu('about')" >研究発表</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="https://api.okazakilab.org/">API</a>
+      </li>
+    </ul>
+  </div>
+</div>

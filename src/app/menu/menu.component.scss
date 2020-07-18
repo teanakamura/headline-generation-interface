@@ -1,0 +1,41 @@
+.menu{
+  padding-left: 10px;
+  padding-right: 10px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  margin-left: 1%;
+  margin-right: 1%;
+  width: 100%;
+  display: flex;
+  min-width: 320px;
+}
+
+.menuBtn{
+  float:right;
+}
+
+ul li{
+  font-family: -apple-system, BlinkMacSystemFont, "Roboto", "Segoe UI", "Helvetica Neue", "Lucida Grande", Arial, sans-serif;
+  font-size:22px;
+  line-height: 1.5;
+  margin-left: 0px;
+  margin-right: 0px;
+}
+
+.menuList{
+  width: 100%;
+}
+
+.ulDiv {
+}
+
+.navbar{
+  max-height: 100px;
+  border-bottom: 2px solid black;
+}
+
+@media (max-width: 767px){
+	.menu{
+    display: block;
+	}
+}

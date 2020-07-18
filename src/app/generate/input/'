@@ -1,0 +1,52 @@
+import { Component, OnInit, Renderer2, ElementRef, ViewChild } from '@angular/core';
+
+@Component({
+  selector: 'app-input',
+  templateUrl: './input.component.html',
+  styleUrls: ['./input.component.scss']
+})
+
+export class InputComponent implements OnInit {
+  @ViewChild('inputHighlight', {static: false}) inp: ElementRef;
+  selections = {};
+  ranges = Range[];
+
+  constructor(private ren: Renderer2, private el: ElementRef) {
+  }
+
+  ngOnInit() {
+  }
+
+  onSelect(event: any) {
+    let selection = event.target.value.substring(event.target.selectionStart, event.target.selectionEnd);
+    console.log(selection);
+    selection in this.selections
+      ? this.selections[selection].push([event.target.selectionStart, event.target.selectionEnd])
+      : this.selections[selection] = [[event.target.selectionStart, event.target.selectionEnd]];
+    console.log(this.selections);
+    console.log('on select in input-highlight');
+    console.log(window.getSelection().toString());
+    document.execCommand("underline");
+  }
+
+  onDivSelect() {
+    console.log('onDivSelect');
+    let sel = window.getSelection();
+    console.log(sel.rangeCount);
+    if (!sel.rangeCount) return;
+    let range = sel.getRangeAt(0);
+    let newNode = this.ren.createElement('span');
+    // this.ren.addClass(newNode, 'mark1');
+    newNode.setAttribute('class', 'mark1');
+    newNode.innerHTML = sel.toString();
+    range.deleteContents();
+    range.insertNode(newNode);
+    this.ranges.add(range);
+    this.ranges.sort((a, b) => { a.compareBoundaryPoints(0, b) })
+    console.log(sel.toString());
+    console.log(range);
+    console.log(range.collapsed);
+    console.log(range.commonAncestorContainer.className);
+    console.log(this.inp.nativeElement.innerHTML);
+  }
+}
