@@ -14,6 +14,7 @@ import { FormControl } from '@angular/forms';
 export class GenerateComponent implements OnInit {
   private URL = 'https://api.okazakilab.org/';
   generatedHeadline = '（ここに生成された見出しが表示されます）';
+  postEditHeadline = '';
   public text = '';
   length = 30;
   selections = {};
@@ -49,7 +50,10 @@ export class GenerateComponent implements OnInit {
         const body: object = {src: [this.text], model, length: this.length};
         this.http.post(this.URL + 'generate', body, this.httpOptions)
           .subscribe(
-          (data) => { this.generatedHeadline = data['0']['hypos'][0]; },
+          (data) => { 
+            this.generatedHeadline = data['0']['hypos'][0];
+            this.postEditHeadline = data['0']['hypos'][0];
+          },
           error => console.log(error)
       ); });
   }

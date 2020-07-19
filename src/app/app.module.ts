@@ -22,6 +22,7 @@ import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatSelectModule} from '@angular/material/select';
 import {MatInputModule} from '@angular/material/input';
 import {MatCheckboxModule} from '@angular/material/checkbox';
+import {MatButtonModule} from '@angular/material/button'
 
 import { MobileNavComponent } from './mobile-nav/mobile-nav.component';
 import { InputComponent } from './generate/input/input.component';
@@ -53,6 +54,7 @@ import { InputComponent } from './generate/input/input.component';
     MatSelectModule,
     MatInputModule,
     MatCheckboxModule,
+    MatButtonModule,
     ],
   providers: [],
   bootstrap: [AppComponent]

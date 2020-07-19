@@ -22,6 +22,16 @@ h1 {
     letter-spacing: 0.03em!important;
 }
 
+mat-form-field {
+  position: relative;
+}
+
+button {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+}
+
 .model-mode {
   padding-right: 15px;
 }
