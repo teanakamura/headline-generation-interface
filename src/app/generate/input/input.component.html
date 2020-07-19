@@ -1,6 +1,7 @@
-<div #inputHighlight class="input-highlight" contenteditable="true" (mouseup)="onDivSelect()">
-  input works! something wrong? no, it's OK!!
+<div #inputHighlight
+     class="input-highlight"
+     contenteditable="true"
+     (mouseup)="onMouseUp($event)"
+     (keyup)="onKeyUp($event)">
 </div>
-<div><span class="mark1">highlight test</span></div>
-<textarea (select)="onSelect($event)"></textarea>
 

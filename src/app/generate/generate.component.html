@@ -13,14 +13,14 @@
             cdkTextareaAutosize
             cdkAutosizeMinRows="3"
             contentEditable="true"
-            [(ngModel)]="text" (input)="onKey($event)"
-            (select)="onSelect($event)">
+            [(ngModel)]="text" (input)="onKey($event)">
   </textarea>
 </mat-form-field>
 
-<app-input></app-input>
+<app-input (inputEvent)="receiveInput($event)"
+           [setParentText]="text">
+</app-input>
 
-<button contenteditable="true">ボタン</button>
 <div contentEditable="true"></div>
 
 <mat-checkbox class="model-mode" [formControl]="isTruthful">忠実な見出しを生成</mat-checkbox>

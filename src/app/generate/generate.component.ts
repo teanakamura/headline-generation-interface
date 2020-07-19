@@ -14,7 +14,7 @@ import { FormControl } from '@angular/forms';
 export class GenerateComponent implements OnInit {
   private URL = 'https://api.okazakilab.org/';
   generatedHeadline = '（ここに生成された見出しが表示されます）';
-  text = '';
+  public text = '';
   length = 30;
   selections = {};
   isLengthControl = new FormControl(false);
@@ -78,15 +78,12 @@ export class GenerateComponent implements OnInit {
     this.changed.next();
   }
 
-  onSelect(event: any) {
-    let selection = event.target.value.substring(event.target.selectionStart, event.target.selectionEnd);
-    selection in this.selections
-      ? this.selections[selection].push([event.target.selectionStart, event.target.selectionEnd])
-      : this.selections[selection] = [[event.target.selectionStart, event.target.selectionEnd]];
-    console.log(this.selections);
-    console.log('on select');
-    console.log(window.getSelection().toString());
-    document.execCommand("underline");
+  replacer(html: string) {
+    return html.replace(/<(\/?)span.*?>/g, "<$1key>");
   }
 
+  receiveInput(articleWithHTML: string) {
+    console.log(this.replacer(articleWithHTML));
+    this.changed.next();
+  }
 }
