@@ -15,6 +15,7 @@ export class InputComponent implements OnInit {
     if (this.inp) this.inp.nativeElement.innerHTML = val;
   }
   @Output() inputEvent = new EventEmitter();
+  @Output() keywordEvent = new EventEmitter();
   selections = {};
   ranges: Range[] = [];
 
@@ -55,11 +56,15 @@ export class InputComponent implements OnInit {
       range.insertNode(newNode);
     }
     this.inp.nativeElement.normalize();
+    this.keywordEvent.emit(this.ranges.map(e => e.toString()));
   }
 
   deleteEmptyRanges() {
-    if (this.ranges.length) this.ranges = this.ranges.filter(e => e.toString());
-    this.inp.nativeElement.normalize();
+    if (this.ranges.length) {
+      this.ranges = this.ranges.filter(e => e.toString());
+      this.inp.nativeElement.normalize();
+      this.keywordEvent.emit(this.ranges.map(e => e.toString()));
+    }
   }
 
   removeEmptyRanges() {

@@ -20,6 +20,7 @@ export class GenerateComponent implements OnInit {
   selections = {};
   isLengthControl = new FormControl(false);
   isTruthful = new FormControl(false);
+  keywords: string[] = [];
 
   private httpOptions: object = {
     headers: new HttpHeaders({
@@ -89,5 +90,9 @@ export class GenerateComponent implements OnInit {
   receiveInput(articleWithHTML: string) {
     console.log(this.replacer(articleWithHTML));
     this.changed.next();
+  }
+
+  receiveKeyword(keywords: string[]) {
+    this.keywords = keywords;
   }
 }
