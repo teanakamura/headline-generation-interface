@@ -83,12 +83,21 @@ export class GenerateComponent implements OnInit {
     this.changed.next();
   }
 
+  htmlTagRemover(html: string) {
+    let div = document.createElement('div');
+    div.innerHTML = html;
+    return div.textContent || div.innerText || html.replace(/<("[^"]*"|'[^']*'|[^'">])*>/g,'');
+  }
+
   replacer(html: string) {
-    return html.replace(/<(\/?)span.*?>/g, "<$1key>");
+    // return html.replace(/<(\/?)span[^>]*?class="mark1"[^>]*?>/g, "@$1key@");
+    return html.replace(/<span[^>]*?class="mark1"[^>]*?>(.+?)<\/span>/g, "@key@$1@@key@@");
   }
 
   receiveInput(articleWithHTML: string) {
-    console.log(this.replacer(articleWithHTML));
+    let text = this.replacer(articleWithHTML);
+    text = this.htmlTagRemover(text);
+    console.log(text);
     this.changed.next();
   }
 
