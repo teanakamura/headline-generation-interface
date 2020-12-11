@@ -5,14 +5,17 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
 var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
+var articlesRouter = require('./routes/articles');
+var loggerRouter = require('./routes/logger');
 
 var app = express();
 
 // view engine setup
 //app.set('views', path.join(__dirname, 'views'));
 //app.set('view engine', 'jade');
-app.use('/api/', indexRouter);
+app.use('/api/articles/', articlesRouter)
+app.use('/api/logger/', loggerRouter)
+app.use('/api/index/', indexRouter);
 app.use(express.static(path.join(__dirname, '/dist/my-app')));
 app.use('/*', express.static(path.join(__dirname, '/dist/my-app/index.html')));
 
