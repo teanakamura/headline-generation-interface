@@ -16,8 +16,8 @@ var app = express();
 app.use('/api/articles/', articlesRouter)
 app.use('/api/logger/', loggerRouter)
 app.use('/api/index/', indexRouter);
-app.use(express.static(path.join(__dirname, '/dist/my-app')));
-app.use('/*', express.static(path.join(__dirname, '/dist/my-app/index.html')));
+app.use(express.static(path.join(__dirname, '../dist/my-app')));
+app.use('/*', express.static(path.join(__dirname, '../dist/my-app/index.html')));
 
 app.use(logger('dev'));
 app.use(express.json());
