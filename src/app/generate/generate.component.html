@@ -5,26 +5,26 @@
   <h2> {{ generatedHeadline }} </h2>
 </div>
 
-<mat-form-field style="width: 100%;">
-  <mat-label>Post Edit</mat-label>
-  <textarea matInput
-            cdkTextareaAutosize
-            cdkAutosizeMinRows="1"
-            [(ngModel)]="postEditHeadline">
-  </textarea>
-  <button mat-button>Complete</button>
-</mat-form-field>
+<!-- <mat-form-field style="width: 100%;">       -->
+<!--   <mat-label>Post Edit</mat-label>          -->
+<!--   <textarea matInput                        -->
+<!--             cdkTextareaAutosize             -->
+<!--             cdkAutosizeMinRows="1"          -->
+<!--             [(ngModel)]="postEditHeadline"> -->
+<!--   </textarea>                               -->
+<!--   <button mat-button>Complete</button>      -->
+<!-- </mat-form-field>                           -->
 
 <app-samples (event)="receiveArticle($event)"></app-samples>
 
-<mat-form-field style="width: 100%;">
-  <mat-label>記事を入力する</mat-label>
-  <textarea matInput
-            cdkTextareaAutosize
-            cdkAutosizeMinRows="3"
-            [(ngModel)]="text" (input)="onKey($event)">
-  </textarea>
-</mat-form-field>
+<!-- <mat-form-field style="width: 100%;">                   -->
+<!--   <mat-label>記事を入力する</mat-label>          -->
+<!--   <textarea matInput                                    -->
+<!--             cdkTextareaAutosize                         -->
+<!--             cdkAutosizeMinRows="3"                      -->
+<!--             [(ngModel)]="text" (input)="onKey($event)"> -->
+<!--   </textarea>                                           -->
+<!-- </mat-form-field>                                       -->
 
 <app-input (inputEvent)="receiveInput($event)"
            (keywordEvent)="receiveKeyword($event)"
