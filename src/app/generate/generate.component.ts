@@ -1,18 +1,17 @@
 import { Component, OnInit } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Subject } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
-import { environment } from './../../environments/environment';
 import { FormControl } from '@angular/forms';
+import { SummaryApiService } from '../../services/summary-api.service';
 
 @Component({
   selector: 'app-generate',
   templateUrl: './generate.component.html',
-  styleUrls: ['./generate.component.scss']
+  styleUrls: ['./generate.component.scss'],
+  providers: [ SummaryApiService ]
 })
 
 export class GenerateComponent implements OnInit {
-  private URL = 'https://api.okazakilab.org/';
   generatedHeadline = '（ここに生成された見出しが表示されます）';
   postEditHeadline = '';
   public text = '';
@@ -21,16 +20,11 @@ export class GenerateComponent implements OnInit {
   isLengthControl = new FormControl(false);
   isTruthful = new FormControl(false);
   keywords: string[] = [];
-
-  private httpOptions: object = {
-    headers: new HttpHeaders({
-      'Content-Type': 'application/json',
-      Authorization: 'Bearer ' + environment.apiKey})
-  };
-
   changed: Subject<string> = new Subject<string>();
 
-  constructor(private http: HttpClient) {
+  constructor(
+    private summaryApiService: SummaryApiService,
+  ) {
     this.changed.pipe(
       debounceTime(500))
       .subscribe(() => {
@@ -48,15 +42,15 @@ export class GenerateComponent implements OnInit {
         } else if (this.isTruthful.value) {
           model = 'truthful';
         }
-        const body: object = {src: [this.text], model, length: this.length};
-        this.http.post(this.URL + 'generate', body, this.httpOptions)
+        this.summaryApiService.getSummary(this.text, model, this.length)
           .subscribe(
-          (data) => { 
-            this.generatedHeadline = data['0']['hypos'][0];
-            this.postEditHeadline = data['0']['hypos'][0];
-          },
-          error => console.log(error)
-      ); });
+            data => {
+              const summary = data['0']['hypos'][0]
+              this.generatedHeadline = summary;
+              this.postEditHeadline = summary;
+            }
+          )
+      });
   }
 
   ngOnInit() {
