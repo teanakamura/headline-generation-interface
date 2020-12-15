@@ -1,10 +1,12 @@
 {
   "appenders": {
     "system": {"type": "file", "filename": "./log/system.log"},
-    "access": {"type": "file", "filename": "./log/access.log"}
+    "web_access": {"type": "datefile", "filename": "./log/access", "pattern": "yyyyMMdd.log", "alwaysIncludePattern": "true"},
+    "web_work": {"type": "datefile", "filename": "./log/work", "pattern": "yyyyMMdd.log", "alwaysIncludePattern": "true", "layout": {"type": "messagePassThrough"}}
   },
   "categories": {
     "default": {"appenders": ["system"], "level": "debug"},
-    "web": {"appenders": ["access"], "level": "info"}
+    "access": {"appenders": ["web_access"], "level": "info"},
+    "work": {"appenders": ["web_work"], "level": "info"}
   }
 }
