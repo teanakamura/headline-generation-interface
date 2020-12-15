@@ -14,6 +14,7 @@ export class SummaryApiService {
       'Content-Type': 'application/json',
       Authorization: 'Bearer ' + environment.apiKey})
   };
+  private ApiURL = '/api/logger/access/';
 
   constructor(private http: HttpClient) { }
 
@@ -22,7 +23,10 @@ export class SummaryApiService {
     let ret: string;
     return this.http.post<string>(this.URL + 'generate', body, this.httpOptions)
       .pipe(
-        tap(data => data['0']['hypos'][0]),
+        tap(data => {
+          const body = {summary: data['0']['hypos'][0]};
+          this.http.post(this.ApiURL, body).subscribe();
+        }),
         catchError(error => {
           console.log(error);
           return 'Api Server Error';
