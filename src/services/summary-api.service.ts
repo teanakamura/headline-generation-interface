@@ -14,18 +14,18 @@ export class SummaryApiService {
       'Content-Type': 'application/json',
       Authorization: 'Bearer ' + environment.apiKey})
   };
-  private ApiURL = '/api/logger/access/';
+  private loggerURL = '/api/logger/access/';
 
   constructor(private http: HttpClient) { }
 
-  getSummary(article, model, length?): Observable<string> {
+  getSummary(article, model, length?, keywords?): Observable<string> {
     const body: object = { src: [article], model, length }
     let ret: string;
     return this.http.post<string>(this.URL + 'generate', body, this.httpOptions)
       .pipe(
         tap(data => {
-          const body = {summary: data['0']['hypos'][0]};
-          this.http.post(this.ApiURL, body).subscribe();
+          const body = {summary: data['0']['hypos'][0], keywords: data['0']['keywords']};
+          this.http.post(this.loggerURL, body).subscribe();
         }),
         catchError(error => {
           console.log(error);

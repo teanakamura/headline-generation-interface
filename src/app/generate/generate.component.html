@@ -5,15 +5,18 @@
   <h2> {{ generatedHeadline }} </h2>
 </div>
 
-<!-- <mat-form-field style="width: 100%;">       -->
-<!--   <mat-label>Post Edit</mat-label>          -->
-<!--   <textarea matInput                        -->
-<!--             cdkTextareaAutosize             -->
-<!--             cdkAutosizeMinRows="1"          -->
-<!--             [(ngModel)]="postEditHeadline"> -->
-<!--   </textarea>                               -->
-<!--   <button mat-button>Complete</button>      -->
-<!-- </mat-form-field>                           -->
+<mat-form-field style="width: 100%;">
+<mat-label>Post Edit</mat-label>
+<textarea matInput
+cdkTextareaAutosize
+cdkAutosizeMinRows="1"
+[(ngModel)]="postEditHeadline">
+</textarea>
+<button mat-button
+        (click)="onClickComplete()">
+  Complete
+</button>
+</mat-form-field>
 
 <app-samples (event)="receiveArticle($event)"></app-samples>
 

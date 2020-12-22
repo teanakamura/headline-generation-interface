@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Subject } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
 import { FormControl } from '@angular/forms';
+import { HttpClient } from '@angular/common/http';
 import { SummaryApiService } from '../../services/summary-api.service';
 
 @Component({
@@ -21,9 +22,11 @@ export class GenerateComponent implements OnInit {
   isTruthful = new FormControl(false);
   keywords: string[] = [];
   changed: Subject<string> = new Subject<string>();
+  work: {src?: string, summary: string, keywords?: string[]}[] = [];
 
   constructor(
     private summaryApiService: SummaryApiService,
+    private http: HttpClient
   ) {
     this.changed.pipe(
       debounceTime(500))
@@ -42,10 +45,11 @@ export class GenerateComponent implements OnInit {
         } else if (this.isTruthful.value) {
           model = 'truthful';
         }
-        this.summaryApiService.getSummary(this.text, model, this.length)
+        this.summaryApiService.getSummary(this.text, model, this.length, this.keywords)
           .subscribe(
             data => {
-              const summary = data['0']['hypos'][0]
+              const summary: string = data['0']['hypos'][0]
+              this.work.push({summary: summary});
               this.generatedHeadline = summary;
               this.postEditHeadline = summary;
             }
@@ -97,5 +101,10 @@ export class GenerateComponent implements OnInit {
 
   receiveKeyword(keywords: string[]) {
     this.keywords = keywords;
+  }
+
+  onClickComplete() {
+    let loggerURL = '/api/logger/work';
+    this.http.post(loggerURL, this.work).subscribe();
   }
 }
