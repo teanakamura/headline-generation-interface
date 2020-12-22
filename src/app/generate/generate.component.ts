@@ -45,6 +45,7 @@ export class GenerateComponent implements OnInit {
         } else if (this.isTruthful.value) {
           model = 'truthful';
         }
+        model = 'jiji_keyword_inline'
         this.summaryApiService.getSummary(this.text, model, this.length, this.keywords)
           .subscribe(
             data => {
@@ -93,8 +94,9 @@ export class GenerateComponent implements OnInit {
   }
 
   receiveInput(articleWithHTML: string) {
-    let text = this.replacer(articleWithHTML);
-    text = this.htmlTagRemover(text);
+    // let text = this.replacer(articleWithHTML);
+    // text = this.htmlTagRemover(text);
+    let text = this.htmlTagRemover(articleWithHTML);
     console.log(text);
     this.changed.next();
   }
