@@ -26,9 +26,7 @@ export class SummaryApiService {
       .pipe(
         tap(data => {
           const body = {
-            summary: data['0']['hypos'][0],
-            keywords: data['0']['keywords'],
-            src: data['0']['src']
+            summary: data['0']['hypos'][0]
           };
           this.http.post(this.loggerURL, body).subscribe();
         }),

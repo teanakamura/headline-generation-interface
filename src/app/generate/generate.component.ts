@@ -45,7 +45,7 @@ export class GenerateComponent implements OnInit {
         } else if (this.isTruthful.value) {
           model = 'truthful';
         }
-        model = 'jiji_keyword_inline'
+        // model = 'jiji_keyword_inline'
         this.summaryApiService.getSummary(this.text, model, this.length, this.keywords)
           .subscribe(
             data => {
