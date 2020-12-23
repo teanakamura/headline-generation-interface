@@ -1,8 +1,8 @@
 {
   "appenders": {
     "system": {"type": "file", "filename": "./log/system.log"},
-    "web_access": {"type": "datefile", "filename": "./log/access", "pattern": "yyyyMMdd.log", "alwaysIncludePattern": "true"},
-    "web_work": {"type": "datefile", "filename": "./log/work", "pattern": "yyyyMMdd.log", "alwaysIncludePattern": "true", "layout": {"type": "messagePassThrough"}}
+    "web_access": {"type": "dateFile", "filename": "./log/access", "pattern": "yyyyMMdd.log", "alwaysIncludePattern": "true"},
+    "web_work": {"type": "dateFile", "filename": "./log/work", "pattern": "yyyyMMdd.log", "alwaysIncludePattern": "true", "layout": {"type": "messagePassThrough"}}
   },
   "categories": {
     "default": {"appenders": ["system"], "level": "debug"},
