@@ -96,8 +96,7 @@ export class GenerateComponent implements OnInit {
   receiveInput(articleWithHTML: string) {
     // let text = this.replacer(articleWithHTML);
     // text = this.htmlTagRemover(text);
-    let text = this.htmlTagRemover(articleWithHTML);
-    console.log(text);
+    this.text = this.htmlTagRemover(articleWithHTML);
     this.changed.next();
   }
 
