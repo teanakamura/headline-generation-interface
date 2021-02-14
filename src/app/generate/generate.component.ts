@@ -65,22 +65,22 @@ export class GenerateComponent implements OnInit {
     .subscribe(this.changed);
   }
 
-  onNumKey(event: any) {
-    this.length = event.target.value;
-    if (Math.sign(this.length) === 1) {
-      this.changed.next();
-    }
-  }
+  // onNumKey(event: any) {
+  //   this.length = event.target.value;
+  //   if (Math.sign(this.length) === 1) {
+  //     this.changed.next();
+  //   }
+  // }
 
-  onKey(event: any) {
-    this.text = event.target.value;
-    this.changed.next();
-  }
+  // onKey(event: any) {
+  //   this.text = event.target.value;
+  //   this.changed.next();
+  // }
 
-  receiveArticle(article: string) {
-    this.text = article;
-    this.changed.next();
-  }
+  // receiveArticle(article: string) {
+  //   this.text = article;
+  //   this.changed.next();
+  // }
 
   htmlTagRemover(html: string) {
     let div = document.createElement('div');
@@ -102,6 +102,7 @@ export class GenerateComponent implements OnInit {
 
   receiveKeyword(keywords: string[]) {
     this.keywords = keywords;
+    this.changed.next();
   }
 
   onClickComplete() {

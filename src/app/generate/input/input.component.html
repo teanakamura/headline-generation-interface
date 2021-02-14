@@ -3,6 +3,8 @@
      class="input-highlight"
      contenteditable="true"
      (mouseup)="onMouseUp($event)"
-     (keyup)="onKeyUp($event)">
+     (paste)="onPaste($event)"
+     (keyup)="onKeyUp($event)"
+     (input)="onInput($event)">
 </div>
 

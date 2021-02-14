@@ -9,15 +9,16 @@ import { partition } from 'lodash-es';
 
 export class InputComponent implements OnInit {
   @ViewChild('inputHighlight', {static: false}) inp: ElementRef;
-  parentText: string;
-  @Input() set setParentText(val: string) {
-    this.parentText = val;
-    if (this.inp) this.inp.nativeElement.innerHTML = val;
-  }
+  // parentText: string;
+  // @Input() set setParentText(val: string) {
+  //   this.parentText = val;
+  //   if (this.inp) this.inp.nativeElement.innerHTML = val;
+  // }
   @Output() inputEvent = new EventEmitter();
   @Output() keywordEvent = new EventEmitter();
   selections = {};
   ranges: Range[] = [];
+  isSelectingByKey: Boolean = false;
 
   constructor(private ren: Renderer2, private el: ElementRef) {
   }
@@ -34,37 +35,40 @@ export class InputComponent implements OnInit {
     // let sel = window.getSelection();
     // if (!sel.rangeCount) return;
     let range = sel.getRangeAt(0);
-    let removedRanges: Range[];
+    let apartRanges: Range[];
+    let overlappingRanges: Range[];
+
     if (this.ranges.length) {
-      // console.log(this.ranges.map(e => e.toString()));
-      // console.log(range);
-      [this.ranges, removedRanges] = partition(this.ranges, e => this.isApart(range, e));
-      removedRanges.forEach((r) => {
-        let newNode = document.createTextNode(r.toString());
-        r.deleteContents();
-        r.insertNode(newNode);
-      });
+      [apartRanges, overlappingRanges] = partition(this.ranges, e => this.isApart(range, e));
+      if (overlappingRanges.length) {
+        if (range.collapsed) {  // delete range
+          this.ranges = apartRanges;
+          overlappingRanges.forEach((r) => {
+            let newNode = document.createTextNode(r.toString());
+            r.deleteContents();
+            r.insertNode(newNode);
+          });
+        } else {  // do nothing
+          return;
+        }
+      }
     }
-    if (range.toString()) {
+    if (range.toString()) {  // add range
       this.ranges.push(range);
       let newNode = this.ren.createElement('span');
       // this.ren.addClass(newNode, 'mark1');
       newNode.setAttribute('class', 'mark1');
       // newNode.innerHTML = sel.toString();
-      range.surroundContents(newNode);
-      range.deleteContents();
-      range.insertNode(newNode);
+      range.surroundContents(newNode);  // |contents| -> <newNode>|contents|<newNode> ;  (||: range)
+      // range.deleteContents();  // |contents| -> ||
+      // range.insertNode(newNode);  // |contents| -> <newNode></newNode>|contents|
+    }
+
+    if (this.ranges.length) {
+      this.ranges = this.ranges.filter(e => e.toString());
     }
     this.inp.nativeElement.normalize();
     this.keywordEvent.emit(this.ranges.map(e => e.toString()));
-  }
-
-  deleteEmptyRanges() {
-    if (this.ranges.length) {
-      this.ranges = this.ranges.filter(e => e.toString());
-      this.inp.nativeElement.normalize();
-      this.keywordEvent.emit(this.ranges.map(e => e.toString()));
-    }
   }
 
   removeEmptyRanges() {
@@ -77,15 +81,37 @@ export class InputComponent implements OnInit {
   }
 
   onKeyUp(event: any) {
-    let sel = window.getSelection();
-    if(sel.rangeCount && sel.getRangeAt(0).toString()) this.onSelect(sel);
-    if(event.keyCode == 8) this.deleteEmptyRanges();
-    this.inputEvent.emit(this.inp.nativeElement.innerHTML);
+    if (event.shiftKey && event.keyCode <= 40 && event.keyCode >= 37) {  // shift + arrows
+      this.isSelectingByKey = true;
+    } else {
+      if (this.isSelectingByKey && event.keyCode == 16) {  // selecting & shift
+        let sel = window.getSelection();
+        if (sel.rangeCount && sel.getRangeAt(0).toString()) this.onSelect(sel);
+      }
+      this.isSelectingByKey = false;
+    }
+    // this.inputEvent.emit(this.inp.nativeElement.innerHTML);
   }
 
   onMouseUp(event: any) {
     let sel = window.getSelection();
     if(sel.rangeCount) this.onSelect(sel);
+    this.inputEvent.emit(this.inp.nativeElement.innerHTML);
+  }
+
+  onPaste(event: any) {
+    event.preventDefault();
+    // let paste = (event.clipboardData || window.clipboardData).getData('text');
+    let paste = event.clipboardData.getData('text');
+    const selection = window.getSelection();
+    // this.inp.nativeElement.innerHTML = paste;
+    if (!selection.rangeCount) return false;
+    selection.deleteFromDocument();
+    selection.getRangeAt(0).insertNode(document.createTextNode(paste));
+    this.inputEvent.emit(paste);
+  }
+
+  onInput(event: any) {
     this.inputEvent.emit(this.inp.nativeElement.innerHTML);
   }
 }
