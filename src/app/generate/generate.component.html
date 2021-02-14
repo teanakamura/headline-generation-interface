@@ -18,7 +18,7 @@ cdkAutosizeMinRows="1"
 </button>
 </mat-form-field>
 
-<app-samples (event)="receiveArticle($event)"></app-samples>
+<!-- <app-samples (event)="receiveArticle($event)"></app-samples> -->
 
 <!-- <mat-form-field style="width: 100%;">                   -->
 <!--   <mat-label>記事を入力する</mat-label>          -->
@@ -29,15 +29,18 @@ cdkAutosizeMinRows="1"
 <!--   </textarea>                                           -->
 <!-- </mat-form-field>                                       -->
 
+<!-- <app-input (inputEvent)="receiveInput($event)"     -->
+<!--            (keywordEvent)="receiveKeyword($event)" -->
+<!--            [setParentText]="text">                 -->
+<!-- </app-input>                                       -->
 <app-input (inputEvent)="receiveInput($event)"
-           (keywordEvent)="receiveKeyword($event)"
-           [setParentText]="text">
+           (keywordEvent)="receiveKeyword($event)">
 </app-input>
 
-<div contentEditable="true"></div>
+<!-- <div contentEditable="true"></div> -->
 
-<mat-checkbox class="model-mode" [formControl]="isTruthful">忠実な見出しを生成</mat-checkbox>
-<mat-checkbox class="model-mode" [formControl]="isLengthControl">見出しの長さを指定</mat-checkbox>
+<!-- <mat-checkbox class="model-mode" [formControl]="isTruthful">忠実な見出しを生成</mat-checkbox> -->
+<!-- <mat-checkbox class="model-mode" [formControl]="isLengthControl">見出しの長さを指定</mat-checkbox> -->
 
 <form *ngIf="isLengthControl.value">
   <mat-form-field>
