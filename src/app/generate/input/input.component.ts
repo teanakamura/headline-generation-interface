@@ -71,12 +71,25 @@ export class InputComponent implements OnInit {
     this.keywordEvent.emit(this.ranges.map(e => e.toString()));
   }
 
+  deleteEmptyRanges() {
+    if (this.ranges.length) {
+      const selection = window.getSelection();
+      selection.getRangeAt(0).insertNode(document.createTextNode(''));
+      this.ranges = this.ranges.filter(e => e.toString());
+      this.inp.nativeElement.normalize();
+      this.keywordEvent.emit(this.ranges.map(e => e.toString()));
+    }
+  }
+
   removeEmptyRanges() {
     let removedRanges: Range[];
     if (this.ranges.length) {
+      const selection = window.getSelection();
+      selection.getRangeAt(0).insertNode(document.createTextNode(''));
       [this.ranges, removedRanges] = partition(this.ranges, e => e.toString());
       removedRanges.forEach((r) => r.deleteContents());
       this.inp.nativeElement.normalize();
+      this.keywordEvent.emit(this.ranges.map(e => e.toString()));
     }
   }
 
@@ -112,6 +125,8 @@ export class InputComponent implements OnInit {
   }
 
   onInput(event: any) {
+    // this.removeEmptyRanges();
+    this.deleteEmptyRanges();
     this.inputEvent.emit(this.inp.nativeElement.innerHTML);
   }
 }
