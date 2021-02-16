@@ -22,10 +22,12 @@ export class SummaryApiService {
   getSummary(article, model, length?, keywords?): Observable<string> {
     const body: object = { src: [article], model, length, keywords: [keywords] }
     let ret: string;
+    console.log('API ACCESS.')
     return this.http.post<string>(this.URL + 'generate', body, this.httpOptions)
       .pipe(
         tap(data => {
           const body = {
+            time: Date.now(),
             summary: data['0']['hypos'][0],
             keywords: data['0']['keywords'],
             src: data['0']['src']

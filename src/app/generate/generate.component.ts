@@ -22,7 +22,7 @@ export class GenerateComponent implements OnInit {
   isTruthful = new FormControl(false);
   keywords: string[] = [];
   changed: Subject<string> = new Subject<string>();
-  work: {src?: string, summary: string, keywords?: string[]}[] = [];
+  work: {time: number, src: string, summary: string, postEdit?: string, keywords: string[]}[] = [];
 
   constructor(
     private summaryApiService: SummaryApiService,
@@ -50,7 +50,12 @@ export class GenerateComponent implements OnInit {
           .subscribe(
             data => {
               const summary: string = data['0']['hypos'][0]
-              this.work.push({summary: summary});
+              this.work.push({
+                time: Date.now(),
+                summary: summary,
+                keywords: data['0']['keywords'],
+                src: data['0']['src']
+              });
               this.generatedHeadline = summary;
               this.postEditHeadline = summary;
             }
@@ -107,6 +112,9 @@ export class GenerateComponent implements OnInit {
 
   onClickComplete() {
     let loggerURL = '/api/logger/work';
-    this.http.post(loggerURL, this.work).subscribe();
+    this.work[this.work.length - 1].postEdit = this.postEditHeadline;
+    this.http.post(loggerURL, this.work).subscribe(
+      data => console.log(this.keywords)
+    );
   }
 }
