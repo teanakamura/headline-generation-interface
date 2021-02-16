@@ -14,12 +14,16 @@ const workLogger = log4js.getLogger('work')
 
 router.post('/access', function(req, res, next) {
   accessLogger.info(JSON.stringify(req.body));
-  res.end()
+  // res.end();
+  // res.sendStatus(200);
+  res.status(200).send({status: 'OK'})
 })
 
 router.post('/work', function(req, res, next) {
   workLogger.info(JSON.stringify(req.body));
-  res.end()
+  // res.end()
+  // res.sendStatus(200);
+  res.status(200).send({status: 'OK'})
 })
 
 module.exports = router;

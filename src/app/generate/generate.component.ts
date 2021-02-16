@@ -29,7 +29,7 @@ export class GenerateComponent implements OnInit {
     private http: HttpClient
   ) {
     this.changed.pipe(
-      debounceTime(500))
+      debounceTime(700))
       .subscribe(() => {
         if (this.text === '') {
           return;
@@ -114,7 +114,13 @@ export class GenerateComponent implements OnInit {
     let loggerURL = '/api/logger/work';
     this.work[this.work.length - 1].postEdit = this.postEditHeadline;
     this.http.post(loggerURL, this.work).subscribe(
-      data => console.log(this.keywords)
+      res => {
+        this.generatedHeadline = '（ここに生成された見出しが表示されます）';
+        this.postEditHeadline = '';
+        this.text = '';
+        this.keywords = [];
+        // console.log(res.status);
+      }
     );
   }
 }

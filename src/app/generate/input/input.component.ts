@@ -1,4 +1,4 @@
-import { Component, OnInit, Renderer2, ElementRef, ViewChild, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Renderer2, ElementRef, ViewChild, Input, SimpleChange, Output, EventEmitter } from '@angular/core';
 import { partition } from 'lodash-es';
 
 @Component({
@@ -14,6 +14,7 @@ export class InputComponent implements OnInit {
   //   this.parentText = val;
   //   if (this.inp) this.inp.nativeElement.innerHTML = val;
   // }
+  @Input() childModel: string;
   @Output() inputEvent = new EventEmitter();
   @Output() keywordEvent = new EventEmitter();
   selections = {};
@@ -109,13 +110,13 @@ export class InputComponent implements OnInit {
       }
       this.isSelectingByKey = false;
     }
-    // this.inputEvent.emit(this.inp.nativeElement.innerHTML);
+    // this.inputEvent.emit(this.inp.nativeElement.innerText);
   }
 
   onMouseUp(event: any) {
     let sel = window.getSelection();
     if(sel.rangeCount) this.onSelect(sel);
-    // this.inputEvent.emit(this.inp.nativeElement.innerHTML);
+    // this.inputEvent.emit(this.inp.nativeElement.innerText);
   }
 
   onPaste(event: any) {
@@ -127,12 +128,16 @@ export class InputComponent implements OnInit {
     if (!selection.rangeCount) return false;
     selection.deleteFromDocument();
     selection.getRangeAt(0).insertNode(document.createTextNode(paste));
-    this.inputEvent.emit(paste);
+    this.inputEvent.emit(this.inp.nativeElement.innerText);
   }
 
   onInput(event: any) {
     // this.removeEmptyRanges();
     this.deleteEmptyRanges();
-    this.inputEvent.emit(this.inp.nativeElement.innerHTML);
+    this.inputEvent.emit(this.inp.nativeElement.innerText);
+  }
+
+  ngOnChanges(changes: {[property: string]: SimpleChange}) {
+    if (this.inp && !changes['childModel'].currentValue) this.inp.nativeElement.innerHTML = null;
   }
 }

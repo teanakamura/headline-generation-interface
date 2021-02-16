@@ -34,6 +34,7 @@ cdkAutosizeMinRows="1"
 <!--            [setParentText]="text">                 -->
 <!-- </app-input>                                       -->
 <app-input (inputEvent)="receiveInput($event)"
+           [childModel]="text"
            (keywordEvent)="receiveKeyword($event)">
 </app-input>
 
