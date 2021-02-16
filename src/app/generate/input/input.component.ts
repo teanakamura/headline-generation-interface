@@ -40,28 +40,34 @@ export class InputComponent implements OnInit {
 
     if (this.ranges.length) {
       [apartRanges, overlappingRanges] = partition(this.ranges, e => this.isApart(range, e));
-      if (overlappingRanges.length) {
-        if (range.collapsed) {  // delete range
-          this.ranges = apartRanges;
-          overlappingRanges.forEach((r) => {
-            let newNode = document.createTextNode(r.toString());
-            r.deleteContents();
-            r.insertNode(newNode);
-          });
-        } else {  // do nothing
-          return;
-        }
-      }
+    } else {
+      overlappingRanges = [];
     }
-    if (range.toString()) {  // add range
-      this.ranges.push(range);
-      let newNode = this.ren.createElement('span');
-      // this.ren.addClass(newNode, 'mark1');
-      newNode.setAttribute('class', 'mark1');
-      // newNode.innerHTML = sel.toString();
-      range.surroundContents(newNode);  // |contents| -> <newNode>|contents|<newNode> ;  (||: range)
-      // range.deleteContents();  // |contents| -> ||
-      // range.insertNode(newNode);  // |contents| -> <newNode></newNode>|contents|
+
+    if (overlappingRanges.length) {
+      if (range.collapsed) {  // delete range
+        this.ranges = apartRanges;
+        overlappingRanges.forEach((r) => {
+          let newNode = document.createTextNode(r.toString());
+          r.deleteContents();
+          r.insertNode(newNode);
+        });
+      } else {  // do nothing
+        return;
+      }
+    } else {
+      if (range.toString()) {  // add range
+        this.ranges.push(range);
+        let newNode = this.ren.createElement('span');
+        // this.ren.addClass(newNode, 'mark1');
+        newNode.setAttribute('class', 'mark1');
+        // newNode.innerHTML = sel.toString();
+        range.surroundContents(newNode);  // |contents| -> <newNode>|contents|<newNode> ;  (||: range)
+        // range.deleteContents();  // |contents| -> ||
+        // range.insertNode(newNode);  // |contents| -> <newNode></newNode>|contents|
+      } else {  // do nothing
+        return;
+      }
     }
 
     if (this.ranges.length) {
@@ -109,7 +115,7 @@ export class InputComponent implements OnInit {
   onMouseUp(event: any) {
     let sel = window.getSelection();
     if(sel.rangeCount) this.onSelect(sel);
-    this.inputEvent.emit(this.inp.nativeElement.innerHTML);
+    // this.inputEvent.emit(this.inp.nativeElement.innerHTML);
   }
 
   onPaste(event: any) {
