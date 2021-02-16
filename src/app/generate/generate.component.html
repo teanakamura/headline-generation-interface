@@ -1,4 +1,4 @@
-<h1>見出し生成デモ</h1>
+<h1>キーワードに基づく見出し生成</h1>
 
 
 <div class="headline">
@@ -6,7 +6,7 @@
 </div>
 
 <mat-form-field style="width: 100%;">
-<mat-label>Post Edit</mat-label>
+<mat-label>事後編集</mat-label>
 <textarea matInput
 cdkTextareaAutosize
 cdkAutosizeMinRows="1"
@@ -14,7 +14,7 @@ cdkAutosizeMinRows="1"
 </textarea>
 <button mat-button
         (click)="onClickComplete()">
-  Complete
+  送信
 </button>
 </mat-form-field>
 
@@ -56,7 +56,7 @@ cdkAutosizeMinRows="1"
 <!-- </form>                                                     -->
 
 <div *ngIf="keywords.length">
-  <p>Selected Keywords</p>
+  <p class="label">選択されたキーワード</p>
   <ul>
     <li *ngFor="let keyword of keywords">
       {{ keyword }}
