@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { Subject } from 'rxjs';
-import { debounceTime } from 'rxjs/operators';
+import { debounceTime, catchError } from 'rxjs/operators';
 import { FormControl } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
-import { SummaryApiService } from '../../services/summary-api.service';
+import { SummaryApiService } from '../services/summary-api.service';
+import { ToastService } from '../services/toast.service';
 
 @Component({
   selector: 'app-generate',
@@ -26,7 +27,8 @@ export class GenerateComponent implements OnInit {
 
   constructor(
     private summaryApiService: SummaryApiService,
-    private http: HttpClient
+    private http: HttpClient,
+    private _toastService: ToastService
   ) {
     this.changed.pipe(
       debounceTime(700))
@@ -112,15 +114,32 @@ export class GenerateComponent implements OnInit {
 
   onClickComplete() {
     let loggerURL = '/api/logger/work';
-    this.work[this.work.length - 1].postEdit = this.postEditHeadline;
-    this.http.post(loggerURL, this.work).subscribe(
-      res => {
-        this.generatedHeadline = '（ここに生成された見出しが表示されます）';
-        this.postEditHeadline = '';
-        this.text = '';
-        this.keywords = [];
-        // console.log(res.status);
-      }
-    );
+    if (this.work.length) this.work[this.work.length - 1].postEdit = this.postEditHeadline;
+    if (!this.postEditHeadline) {
+      this._toastService.open('ERROR: 空の送信です', false);
+      return;
+    }
+    this.http.post(loggerURL, this.work)
+      // .pipe(
+      //   catchError(err => {
+      //     console.log(err);
+      //     this._toastService.open('ERROR: サーバーエラー', false);
+      //     return err;
+      //   })
+      // )
+      .subscribe({
+        next: res => {
+          // this.generatedHeadline = '（ここに生成された見出しが表示されます）';
+          // this.postEditHeadline = '';
+          // this.text = '';
+          // this.keywords = [];
+          this._toastService.open('送信しました', true);
+          // console.log(res.status);
+        },
+        error: err => {
+          console.log(err);
+          this._toastService.open('ERROR: 記録に失敗しました', false);
+        }
+      });
   }
 }

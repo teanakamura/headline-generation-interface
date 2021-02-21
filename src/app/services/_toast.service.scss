@@ -1,0 +1,19 @@
+.snack-bar {
+  color: #444444;
+}
+.snack-bar .mat-simple-snackbar-action {
+  color: #444444;
+}
+
+.success-snack-bar {
+  background-color: rgba(100, 200, 80, 0.3);
+}
+
+.failure-snack-bar {
+  background-color: rgba(255, 100, 100, 0.3);
+}
+
+.cdk-overlay-container {
+    position: fixed;
+    z-index: 1040;
+}
