@@ -5,29 +5,7 @@
     <app-mobile-nav class="w-100"></app-mobile-nav>
   </nav>
 <main class="container">
-  <div class="row">
-    <div class="col" *ngIf="menuTab == 'demo'">
-      <app-generate></app-generate>
-      <p class="jiji">
-          学習データは
-          <a href="https://www.jiji.com/" target="_blank">時事通信社</a>
-          から提供して頂いたコーパスを使用しています。
-      </p>
-      <div id="documents" *ngIf="mobile">
-        <section *ngFor="let doc of documents">
-            <div markdown [src]=doc.uri> </div>
-        </section>
-      </div>
-      <h6 class="acknowledgment">謝辞</h6>
-      <p>
-        本研究成果は国立研究開発法人情報通信研究機構（NICT）の委託研究
-        「多言語音声翻訳高度化のためのディープラーニング技術の研究開発」により得られたものです．
-      </p>
-    </div>
-    <div class="col" *ngIf="menuTab != 'demo'">
-      <app-instructions (menuSelection)="receiveMessage($event)" ></app-instructions>
-    </div>
-  </div>
+  <router-outlet></router-outlet>
 </main>
 
 <footer>

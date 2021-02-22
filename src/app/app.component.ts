@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import { MenuServiceService } from './services/menu-service.service';
-import { DOCUMENTS } from './documents';
 
 @Component({
   selector: 'app-root',
@@ -8,20 +7,12 @@ import { DOCUMENTS } from './documents';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  menuTab: string;
-  mobile = false;
-  documents = DOCUMENTS;
+  mobile = true;
 
-    constructor(private data: MenuServiceService) { }
+  constructor(private data: MenuServiceService) { }
 
-    ngOnInit() {
-      this.data.currentMenuTab.subscribe(tab => this.menuTab = tab);
-      if (window.screen.width < 768) {
-        this.mobile = true;
-      }
-    }
-
-    receiveMessage($event) {
-      this.menuTab = $event;
-    }
+  ngOnInit(): void {
+    this.data.checkDevice();
+    this.data.currentDevice.subscribe(dev => this.mobile = dev == "mobile");
+  }
 }

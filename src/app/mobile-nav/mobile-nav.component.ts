@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { DOCUMENTS } from '../documents';
+import { DOCUMENTS } from '../demo/documents';
 
 @Component({
   selector: 'app-mobile-nav',

@@ -4,16 +4,9 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { MarkdownModule } from 'ngx-markdown';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { MenuComponent } from './menu/menu.component';
-import { InstructionsComponent } from './instructions/instructions.component';
-import { ExperimentDetailsComponent } from './experiment-details/experiment-details.component';
-import { TrainingStatisticsComponent } from './training-statistics/training-statistics.component';
-import { AboutComponent } from './about/about.component';
 import { HttpClientModule } from '@angular/common/http';
 import { HttpClient } from '@angular/common/http';
 
-import { GenerateComponent } from './generate/generate.component';
-import { SamplesComponent } from './generate/samples/samples.component';
 import { FormsModule } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -26,7 +19,16 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 import { MobileNavComponent } from './mobile-nav/mobile-nav.component';
-import { InputComponent } from './generate/input/input.component';
+import { DemoComponent } from './demo/demo.component';
+import { GenerateComponent } from './demo/generate/generate.component';
+import { InputComponent } from './demo/generate/input/input.component';
+import { SamplesComponent } from './demo/generate/samples/samples.component';
+import { MenuComponent } from './menu/menu.component';
+import { InstructionsComponent } from './demo/instructions/instructions.component';
+import { AboutComponent } from './demo/about/about.component';
+import { ExperimentDetailsComponent } from './demo/experiment-details/experiment-details.component';
+import { TrainingStatisticsComponent } from './demo/training-statistics/training-statistics.component';
+import { DownloaderComponent } from './downloader/downloader.component';
 
 
 @NgModule({
@@ -41,6 +43,8 @@ import { InputComponent } from './generate/input/input.component';
     SamplesComponent,
     MobileNavComponent,
     InputComponent,
+    DownloaderComponent,
+    DemoComponent,
   ],
   imports: [
     NgbModule,

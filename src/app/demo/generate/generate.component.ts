@@ -3,8 +3,8 @@ import { Subject } from 'rxjs';
 import { debounceTime, catchError } from 'rxjs/operators';
 import { FormControl } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
-import { SummaryApiService } from '../services/summary-api.service';
-import { ToastService } from '../services/toast.service';
+import { SummaryApiService } from '../../services/summary-api.service';
+import { ToastService } from '../../services/toast.service';
 
 @Component({
   selector: 'app-generate',
