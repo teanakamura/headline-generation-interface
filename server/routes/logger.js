@@ -1,6 +1,8 @@
 const express = require('express');
 const log4js = require('log4js');
 const bodyParser = require('body-parser')
+const fs = require("fs");
+const readline = require("readline");
 
 const router = express.Router();
 router.use(bodyParser.urlencoded({
@@ -24,6 +26,36 @@ router.post('/work', function(req, res, next) {
   // res.end()
   // res.sendStatus(200);
   res.status(200).send({status: 'OK'})
+})
+
+router.get('/work', function(req, res, next) {
+  // Streamを準備
+  const stream = fs.createReadStream(`log/work.${req.query.date}.log`, {
+                    encoding: "utf8",         // 文字コード
+                    highWaterMark: 1024       // 一度に取得するbyte数
+                  });
+
+  // readlineの方ではerrorを捉えられないため，fsの方でerrorをチェックする
+  stream.on('error', next);
+
+  // readlineにStreamを渡す
+  const rl = readline.createInterface({input: stream});
+  let lines = []
+  rl.on('line', (line) => {
+    lines.push(JSON.parse(line).slice(-1)[0]);
+  }).on('close', () => {
+    res.status(200).json(lines);
+  })
+  // res.status(200).send({status: 'OK'})
+  // res.status(200).json({user: 'apple'});
+})
+
+router.get('/works', function(req, res, next) {
+  fs.readdir('log/', (err, fls) => {
+    if (err) {next(err);}
+    let ret = fls.filter(f => fs.statSync(`log/${f}`).isFile() && /work.\d{8}.log/.test(f));
+    res.status(200).json(ret);
+  })
 })
 
 module.exports = router;

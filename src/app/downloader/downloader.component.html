@@ -1,1 +1,14 @@
-<p>downloader works!</p>
+<div>
+  <select [(ngModel)]="selectedDate">
+    <!-- <option disabled="disabled" value="undefined">日付を選択してください</option> -->
+    <option
+      *ngFor="let date of dates"
+      [value]="date">
+      {{dateFormat(date)}}
+    </option>
+  </select>
+  <button mat-button
+          (click)="onClickDownload()">
+    ダウンロード
+  </button>
+</div>
