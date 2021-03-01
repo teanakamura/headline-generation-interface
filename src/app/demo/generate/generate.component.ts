@@ -108,7 +108,14 @@ export class GenerateComponent implements OnInit {
     // let text = this.replacer(articleWithHTML);
     // text = this.htmlTagRemover(text);
     this.text = this.htmlTagRemover(articleWithHTML);
-    this.changed.next();
+    if (this.text.trim()) {
+      this.changed.next();
+    } else {
+      this.generatedHeadline = '（ここに生成された見出しが表示されます）';
+      this.postEditHeadline = '';
+      this.text = '';
+      this.keywords = [];
+    }
   }
 
   receiveKeyword(keywords: string[]) {
