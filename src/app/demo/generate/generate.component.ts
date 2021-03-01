@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { Subject } from 'rxjs';
 import { debounceTime, catchError } from 'rxjs/operators';
 import { FormControl } from '@angular/forms';
@@ -24,11 +25,13 @@ export class GenerateComponent implements OnInit {
   keywords: string[] = [];
   changed: Subject<string> = new Subject<string>();
   work: {time: number, src: string, summary: string, postEdit?: string, keywords: string[]}[] = [];
+  private user: string;
 
   constructor(
     private summaryApiService: SummaryApiService,
     private http: HttpClient,
-    private _toastService: ToastService
+    private _toastService: ToastService,
+    private route: ActivatedRoute
   ) {
     this.changed.pipe(
       debounceTime(700))
@@ -66,6 +69,7 @@ export class GenerateComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.route.queryParams.subscribe(params => this.user = params.user);
     this.isLengthControl.valueChanges
     .subscribe(this.changed);
     this.isTruthful.valueChanges
@@ -119,7 +123,11 @@ export class GenerateComponent implements OnInit {
       this._toastService.open('ERROR: 空の送信です', false);
       return;
     }
-    this.http.post(loggerURL, this.work)
+    if (['jiji', 'titech'].indexOf(this.user) == -1){
+      this._toastService.open('ERROR: 承認されていないユーザです', false);
+      return;
+    }
+    this.http.post(loggerURL, {user: this.user, work: this.work})
       // .pipe(
       //   catchError(err => {
       //     console.log(err);

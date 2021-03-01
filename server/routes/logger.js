@@ -42,7 +42,7 @@ router.get('/work', function(req, res, next) {
   const rl = readline.createInterface({input: stream});
   let lines = []
   rl.on('line', (line) => {
-    lines.push(JSON.parse(line).slice(-1)[0]);
+    lines.push(JSON.parse(line).work.slice(-1)[0]);
   }).on('close', () => {
     res.status(200).json(lines);
   })
