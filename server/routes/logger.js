@@ -42,7 +42,8 @@ router.get('/work', function(req, res, next) {
   const rl = readline.createInterface({input: stream});
   let lines = []
   rl.on('line', (line) => {
-    lines.push(JSON.parse(line).work.slice(-1)[0]);
+    let lineObject = JSON.parse(line);
+    if (lineObject.user == 'jiji') {lines.push(lineObject.work.slice(-1)[0]);}
   }).on('close', () => {
     res.status(200).json(lines);
   })

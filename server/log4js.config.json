@@ -1,5 +1,6 @@
 {
   "appenders": {
+    "console": {"type": "console"},
     "system": {"type": "file", "filename": "./log/system.log"},
     "web_access": {"type": "dateFile", "filename": "./log/access", "pattern": "yyyyMMdd.log", "alwaysIncludePattern": "true"},
     "web_work": {"type": "dateFile", "filename": "./log/work", "pattern": "yyyyMMdd.log", "alwaysIncludePattern": "true", "layout": {"type": "messagePassThrough"}}
@@ -7,6 +8,6 @@
   "categories": {
     "default": {"appenders": ["system"], "level": "debug"},
     "access": {"appenders": ["web_access"], "level": "info"},
-    "work": {"appenders": ["web_work"], "level": "info"}
+    "work": {"appenders": ["web_work", "console"], "level": "info"}
   }
 }

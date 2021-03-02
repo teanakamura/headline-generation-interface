@@ -125,7 +125,14 @@ export class GenerateComponent implements OnInit {
 
   onClickComplete() {
     let loggerURL = '/api/logger/work';
-    if (this.work.length) this.work[this.work.length - 1].postEdit = this.postEditHeadline;
+    // if (this.work.length) this.work[this.work.length - 1].postEdit = this.postEditHeadline;
+    this.work.push({
+      time: Date.now(),
+      summary: this.generatedHeadline,
+      keywords: this.keywords,
+      src: this.text,
+      postEdit: this.postEditHeadline
+    });
     if (!this.postEditHeadline) {
       this._toastService.open('ERROR: 空の送信です', false);
       return;
@@ -149,7 +156,8 @@ export class GenerateComponent implements OnInit {
           // this.text = '';
           // this.keywords = [];
           this._toastService.open('送信しました', true);
-          // console.log(res.status);
+          this.work = [];
+          // console.log(res);
         },
         error: err => {
           console.log(err);
