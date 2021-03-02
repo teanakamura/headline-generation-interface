@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { saveAs } from 'file-saver';
+import { ToastService } from '../services/toast.service';
 
 @Component({
   selector: 'app-downloader',
@@ -11,7 +12,10 @@ export class DownloaderComponent implements OnInit {
   dates: string[] = [];
   selectedDate: string;
 
-  constructor(private http: HttpClient) { }
+  constructor(
+    private http: HttpClient,
+    private _toastService: ToastService,
+  ) { }
 
   ngOnInit(): void {
     let loggerURL = '/api/logger/works';
@@ -43,6 +47,10 @@ export class DownloaderComponent implements OnInit {
   }
 
   onClickDownload() {
+    if (!this.selectedDate) {
+      this._toastService.open('ERROR: 日付を選択してください', false);
+      return;
+    }
     let params = { date: this.selectedDate };
     let loggerURL = '/api/logger/work';
     if (params) loggerURL += '?' + Object.entries(params).map(e => `${e[0]}=${e[1]}`).join('&');
@@ -56,6 +64,7 @@ export class DownloaderComponent implements OnInit {
           saveAs(writeData, `log-${this.selectedDate}.csv`);
         },
         error: err => {
+          this._toastService.open('ERROR: ダウンロードに失敗しました', false);
           console.error(err);
         }
       })
