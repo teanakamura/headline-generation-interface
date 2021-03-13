@@ -41,19 +41,19 @@ cdkAutosizeMinRows="1"
 <!-- <div contentEditable="true"></div> -->
 
 <!-- <mat-checkbox class="model-mode" [formControl]="isTruthful">忠実な見出しを生成</mat-checkbox> -->
-<!-- <mat-checkbox class="model-mode" [formControl]="isLengthControl">見出しの長さを指定</mat-checkbox> -->
+<mat-checkbox class="model-mode" [formControl]="isLengthControl">見出しの長さを指定</mat-checkbox>
 
-<!-- <form *ngIf="isLengthControl.value">                        -->
-<!--   <mat-form-field>                                          -->
-<!--       <mat-label>生成する見出しの長さ</mat-label> -->
-<!--     <input                                                  -->
-<!--       matInput                                              -->
-<!--       type="number"                                         -->
-<!--       [value]="length"                                      -->
-<!--       (change)="onNumKey($event)"                           -->
-<!--     >                                                       -->
-<!--   </mat-form-field>                                         -->
-<!-- </form>                                                     -->
+<form *ngIf="isLengthControl.value">
+  <mat-form-field>
+    <mat-label>生成する見出しの長さ</mat-label>
+    <input
+      matInput
+      type="number"
+      [value]="length"
+      (change)="onNumKey($event)"
+    >
+  </mat-form-field>
+</form>
 
 <div *ngIf="keywords.length">
   <p class="label">選択されたキーワード</p>

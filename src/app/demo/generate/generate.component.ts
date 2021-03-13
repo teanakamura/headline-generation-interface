@@ -21,10 +21,10 @@ export class GenerateComponent implements OnInit {
   length = 30;
   selections = {};
   isLengthControl = new FormControl(false);
-  isTruthful = new FormControl(false);
+  // isTruthful = new FormControl(false);
   keywords: string[] = [];
   changed: Subject<string> = new Subject<string>();
-  work: {time: number, src: string, summary: string, postEdit?: string, keywords: string[]}[] = [];
+  work: {time: number, model: string, src: string, summary: string, postEdit?: string, keywords: string[]}[] = [];
   private user: string;
 
   constructor(
@@ -40,23 +40,17 @@ export class GenerateComponent implements OnInit {
           return;
         }
         this.generatedHeadline = '生成中……';
-        let model = 'basic';
+        let model = 'jiji_keyword';
         if (this.isLengthControl.value) {
-          if (this.isTruthful.value) {
-            model = 'both';
-          } else {
-            model = 'length_control';
-          }
-        } else if (this.isTruthful.value) {
-          model = 'truthful';
+          model = 'jiji_keyword_length_control'
         }
-        model = 'jiji_keyword'
         this.summaryApiService.getSummary(this.text, model, this.length, this.keywords)
           .subscribe(
             data => {
               const summary: string = data['0']['hypos'][0]
               this.work.push({
                 time: Date.now(),
+                model: model,
                 summary: summary,
                 keywords: data['0']['keywords'],
                 src: data['0']['src']
@@ -72,16 +66,16 @@ export class GenerateComponent implements OnInit {
     this.route.queryParams.subscribe(params => this.user = params.user);
     this.isLengthControl.valueChanges
     .subscribe(this.changed);
-    this.isTruthful.valueChanges
-    .subscribe(this.changed);
+    // this.isTruthful.valueChanges
+    // .subscribe(this.changed);
   }
 
-  // onNumKey(event: any) {
-  //   this.length = event.target.value;
-  //   if (Math.sign(this.length) === 1) {
-  //     this.changed.next();
-  //   }
-  // }
+  onNumKey(event: any) {
+    this.length = event.target.value;
+    if (Math.sign(this.length) === 1) {
+      this.changed.next();
+    }
+  }
 
   // onKey(event: any) {
   //   this.text = event.target.value;
@@ -125,9 +119,14 @@ export class GenerateComponent implements OnInit {
 
   onClickComplete() {
     let loggerURL = '/api/logger/work';
+    let model = 'jiji_keyword';
+    if (this.isLengthControl.value) {
+      model = 'jiji_keyword_length_control'
+    }
     // if (this.work.length) this.work[this.work.length - 1].postEdit = this.postEditHeadline;
     this.work.push({
       time: Date.now(),
+      model: model,
       summary: this.generatedHeadline,
       keywords: this.keywords,
       src: this.text,

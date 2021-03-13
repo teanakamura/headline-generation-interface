@@ -8,7 +8,7 @@ import { environment } from '../../environments/environment';
   providedIn: 'root'
 })
 export class SummaryApiService {
-  private URL = 'https://api.okazakilab.org/';
+  private URL = 'https://api2.okazakilab.org/';
   // private URL = 'http://localhost:8000/'
   private httpOptions: object = {
     headers: new HttpHeaders({
@@ -28,6 +28,7 @@ export class SummaryApiService {
         tap(data => {
           const body = {
             time: Date.now(),
+            model: model,
             summary: data['0']['hypos'][0],
             keywords: data['0']['keywords'],
             src: data['0']['src']
